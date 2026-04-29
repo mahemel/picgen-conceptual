@@ -11,6 +11,7 @@ import {
     TextField,
 } from "@heroui/react";
 import { redirect } from "next/navigation";
+import { GrGoogle } from "react-icons/gr";
 
 export default function SignUpPage() {
     const onSubmit = async (e) => {
@@ -28,6 +29,12 @@ export default function SignUpPage() {
         if (!error) {
             redirect("/");
         }
+    };
+
+    const handleGoogleSignIn = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
     };
 
     return (
@@ -80,6 +87,12 @@ export default function SignUpPage() {
                     </Button>
                 </div>
             </Form>
+            <p className="text-center">Or</p>
+            <div className="flex justify-center">
+                <Button onClick={handleGoogleSignIn}>
+                    <GrGoogle></GrGoogle> Sign in with Google
+                </Button>
+            </div>
         </Card>
     );
 }

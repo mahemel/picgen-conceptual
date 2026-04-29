@@ -1,10 +1,20 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, Button } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
     const pathname = usePathname();
+
+    const { data: session } = authClient.useSession();
+
+    const userSignedIn = session?.user;
+
+    const handleUserSignOut = async () => {
+        await authClient.signOut();
+    };
 
     return (
         <div className="border-b px-2">
@@ -63,14 +73,32 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex">
-                    <ul className="flex items-center text-sm gap-4">
-                        <li>
-                            <Link href={"/signup"}>SignUp</Link>
-                        </li>
-                        <li>
-                            <Link href={"/signin"}>SignIn</Link>
-                        </li>
-                    </ul>
+                    {!userSignedIn ? (
+                        <ul className="flex items-center text-sm gap-4">
+                            <li>
+                                <Link href={"/signup"}>SignUp</Link>
+                            </li>
+                            <li>
+                                <Link href={"/signin"}>SignIn</Link>
+                            </li>
+                        </ul>
+                    ) : (
+                        <div className="flex gap-4 items-center">
+                            <Avatar>
+                                <Avatar.Image
+                                    alt={userSignedIn?.name}
+                                    src={userSignedIn?.image}
+                                    referrerPolicy="no-referrer"
+                                />
+                                <Avatar.Fallback>
+                                    {userSignedIn?.name}
+                                </Avatar.Fallback>
+                            </Avatar>
+                            <Button onClick={handleUserSignOut}>
+                                Sign Out
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </nav>
         </div>
