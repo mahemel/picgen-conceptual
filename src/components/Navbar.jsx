@@ -1,6 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import { Avatar, Button } from "@heroui/react";
+import { Avatar, Button, Spinner } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 const Navbar = () => {
     const pathname = usePathname();
 
-    const { data: session } = authClient.useSession();
+    const { data: session, isPending } = authClient.useSession();
 
     const userSignedIn = session?.user;
 
@@ -73,13 +73,17 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex">
-                    {!userSignedIn ? (
+                    {isPending ? (
+                        <div className="flex relative">
+                            <Spinner />
+                        </div>
+                    ) : !userSignedIn ? (
                         <ul className="flex items-center text-sm gap-4">
                             <li>
-                                <Link href={"/signup"}>SignUp</Link>
+                                <Link href="/signup">SignUp</Link>
                             </li>
                             <li>
-                                <Link href={"/signin"}>SignIn</Link>
+                                <Link href="/signin">SignIn</Link>
                             </li>
                         </ul>
                     ) : (
@@ -94,6 +98,7 @@ const Navbar = () => {
                                     {userSignedIn?.name}
                                 </Avatar.Fallback>
                             </Avatar>
+
                             <Button onClick={handleUserSignOut}>
                                 Sign Out
                             </Button>
