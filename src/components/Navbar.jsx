@@ -1,8 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+    const pathname = usePathname();
+
     return (
         <div className="border-b px-2">
             <nav className=" flex justify-between items-center  py-3 max-w-7xl mx-auto w-full">
@@ -20,16 +23,42 @@ const Navbar = () => {
 
                 <ul className="flex items-center gap-5 text-sm">
                     <li>
-                        <Link href={"/"}>Home</Link>
+                        <Link
+                            className={pathname === "/" ? "border-b-2" : ""}
+                            href={"/"}
+                        >
+                            Home
+                        </Link>
                     </li>
                     <li>
-                        <Link href={"/all-photos"}>All Photos</Link>
+                        <Link
+                            className={
+                                pathname === "/all-photos" ? "border-b-2" : ""
+                            }
+                            href={"/all-photos"}
+                        >
+                            All Photos
+                        </Link>
                     </li>
                     <li>
-                        <Link href={"/pricing"}>Pricing</Link>
+                        <Link
+                            className={
+                                pathname === "/pricing" ? "border-b-2" : ""
+                            }
+                            href={"/pricing"}
+                        >
+                            Pricing
+                        </Link>
                     </li>
                     <li>
-                        <Link href={"/profile"}>Profile</Link>
+                        <Link
+                            className={
+                                pathname === "/profile" ? "border-b-2" : ""
+                            }
+                            href={"/profile"}
+                        >
+                            Profile
+                        </Link>
                     </li>
                 </ul>
 

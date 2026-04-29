@@ -22,7 +22,10 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <Navbar></Navbar>
-        {children}
+        <main className="w-full max-w-7xl mx-auto px-5">
+
+          {children}
+        </main>
         <Footer></Footer>
       </body>
     </html>
